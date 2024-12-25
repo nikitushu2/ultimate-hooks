@@ -18,10 +18,22 @@ const useField = (type) => {
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
-  // ...
+  useEffect(() => {
+    fetch(`${baseUrl}`)
+      .then(response => response.json())
+      .then(data => setResources(data))
+  }, [baseUrl])
 
   const create = (resource) => {
-    // ...
+    fetch(`${baseUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(resource),
+    })
+      .then(response => response.json())
+      .then(resource => setResources(resources.concat(resource)))
   }
 
   const service = {
